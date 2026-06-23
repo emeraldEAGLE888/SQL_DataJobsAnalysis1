@@ -2,3 +2,7 @@ csv_files/company_dim.csv
 csv_files/skills_dim.csv
 csv_files/skills_job_dim.csv
 csv_files/job_postings_fact.csv
+.vscode
+sql_load
+sql_beginner.session.sql
+sql_unions.sql
