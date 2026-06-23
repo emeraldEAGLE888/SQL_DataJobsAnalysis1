@@ -1,3 +1,3 @@
-*SQL Data Job Analysis*
+# SQL Data Jobs Analysis #
 
 This is the SQL data job analysis I am completing. Results will be in soon!
