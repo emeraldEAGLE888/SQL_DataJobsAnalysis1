@@ -32,9 +32,18 @@ ORDER BY salary_year_avg DESC
 LIMIT 10;
 ```
 ### Result
-![Top 10 Paying Jobs for Data Engineers in Canada](assets\1_top_paying_jobs_chart.png)
-
-*Table displaying salaries of the top 10 job postings for data engineers in Canada.*
+| Job Title                    | Company               | Location             | Schedule Type | Salary   |
+| ---------------------------- | --------------------- | -------------------- | ------------- | -------- |
+| Director of Data Engineering | Ripple                | Toronto, ON          | Full-time     | $375,000 |
+| Distinguished Data Engineer  | eSmartloan            | Richmond, BC         | Full-time     | $244,500 |
+| Principal Data Engineer      | Ripple                | Toronto, ON          | Full-time     | $225,000 |
+| Lead Data Engineer           | Capital One           | British Columbia, BC | Full-time     | $211,000 |
+| Senior Software Engineer     | Gusto                 | Toronto, ON          | Full-time     | $200,000 |
+| Sr. Data Engineer            | Productboard          | Vancouver, BC        | Full-time     | $190,000 |
+| Data Platform Engineer       | Grammarly             | Canada               | Full-time     | $188,000 |
+| Data Engineering Manager     | 360insights.com       | Moncton, NB          | Full-time     | $175,000 |
+| Sr. Staff Data Engineer      | Generac Power Systems | Vancouver, BC        | Full-time     | $175,000 |
+| Senior Developer             | Bell Canada           | Mississauga, ON      | Full-time     | $175,000 |
 
 ### Querying the Skills 
 ```sql
@@ -56,9 +65,18 @@ INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
 ORDER BY salary_year_avg DESC
 ```
 ### Result
-![Top 10 Paying Skills for Data Engineers in Canada](assets\2_top_paying_jobs_skills_chart.png)
-
-*Table displaying the 10 most popular skills listed in the top 10 job postings for data engineers in Canada.*
+| Skill      | Postings |
+| ---------- | -------: |
+| SQL        |        7 |
+| Python     |        7 |
+| AWS        |        6 |
+| Spark      |        5 |
+| Kafka      |        5 |
+| Scala      |        4 |
+| Java       |        4 |
+| Azure      |        4 |
+| Hadoop     |        3 |
+| Databricks |        3 |
 
 ### Insights
 - Salaries range from **$175K–$375K** CAD, showing the vast possibilities of pay at the top of the data engineering spectrum.
@@ -88,14 +106,32 @@ LIMIT 10
 ```
 ### Result
 ### Most Demanded Skills
-![Top 10 Demanded Skills for Data Engineers](assets\3_top_demanded_skills_chart.png)
-
-*Table displaying total job postings of the top 10 most demanded skills for data engineers.*
+| Skill     | Postings | Salary   | Type        |
+|-----------|---------:|----------:|-------------|
+| SQL       | 4289     | $132,986  | programming |
+| Python    | 4196     | $136,694  | programming |
+| AWS       | 2887     | $139,027  | cloud       |
+| Spark     | 2297     | $140,994  | libraries   |
+| Azure     | 2059     | $134,285  | cloud       |
+| Java      | 1656     | $141,600  | programming |
+| Snowflake | 1571     | $142,562  | cloud       |
+| Kafka     | 1319     | $147,097  | libraries   |
+| Hadoop    | 1226     | $141,345  | libraries   |
+| Scala     | 1222     | $146,949  | programming |
 
 ### Highest Paid Skills (w/ 10+ postings)
-![Top 10 Highest Paid Skills for Data Engineers](assets\4_top_paying_skills_chart.png)
-
-*Table displaying total job postings of the top 10 highest paying skills for data engineers.*
+| Skill     | Salary   | Postings | Type          |
+|-----------|----------:|----------:|---------------|
+| Mongo     | $176,119  | 239       | programming   |
+| Node      | $175,807  | 39        | webframeworks |
+| Cassandra | $156,724  | 432       | databases     |
+| Rust      | $151,361  | 30        | programming   |
+| Shell     | $149,303  | 569       | programming   |
+| Kafka     | $147,097  | 1319      | libraries     |
+| Scala     | $146,949  | 1222      | programming   |
+| Angular   | $146,583  | 54        | webframeworks |
+| MySQL     | $145,363  | 612       | databases     |
+| Splunk    | $145,300  | 71        | analyst tools |
 
 ### Insights
 - **SQL** and **Python** are by far the most demanded skills in data engineering, both having almost 4x the amount of job postings as the 10th most popular skill (**Scala**).
