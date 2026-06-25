@@ -1,5 +1,5 @@
 # Overview
-This report analyzes popular skills for Data Engineers and categorizes them by demand and average salary. The project was created with a desire to delve into the data job market and understand it effectively in order to optimize success in the industry.
+This report analyzes popular skills for data engineers and categorizes them by demand and average salary. The project was created with a desire to delve into the data job market and understand it effectively in order to optimize success in the industry.
 
 This project was completed in conjuction with [Luke Barousse's SQL for Data Analytics Course](https://lukeb.co/sql), which provided all the data analyzed as well as a foundation for my analysis. The dataset used in this analysis was a series of data job postings in 2023 with detailed information on salaries, locations, and essential skills.
 
