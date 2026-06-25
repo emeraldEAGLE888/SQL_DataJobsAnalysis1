@@ -16,7 +16,7 @@ WHERE
 GROUP BY skills_dim.skill_id, skills_dim.type
 HAVING COUNT(*) > 10
 ORDER BY avg_salary DESC, COUNT(*) DESC
-LIMIT 25
+LIMIT 10
 
 
 -- Old Query by Using CTEs from Queries 3 and 4

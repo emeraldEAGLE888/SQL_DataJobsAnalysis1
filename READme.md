@@ -6,11 +6,8 @@ This project was completed in conjuction with [Luke Barousse's SQL for Data Anal
 # Essential Questions
 Below are the overarching questions answered through this project's analysis:
 
-1. What are the top paying jobs for data engineers in Canada?
-2. What skills do the top paying jobs for data engineers require?
-3. What are the most demanded skills for data engineers?
-4. What are the highest paid skills for data engineers?
-5. What are the most optimal (high-paying and high-demand) skills for data engineers?
+1. What are the top paying jobs for data engineers in Canada and what skills do they require?
+2. What are the most optimal (in demand and high-paying) skills in data engineering jobs?
 
 # Tools Used
 Through this project, several tools were utilized to allow me to complete the report:
@@ -20,9 +17,10 @@ Through this project, several tools were utilized to allow me to complete the re
 - **Git & GitHub**: Essential for version control and sharing SQL scripts and analysis, ensuring project tracking.
 
 # Analysis
-## What are the top paying jobs for data engineers in Canada?
-Based on the job market data, roles were filtered to data engineering in Canada and ordered by average salary, resulting in the identifcation of the top 10 highest paying jobs in data engineering in Canada. 
+## What are the top paying jobs for data engineers in Canada and what skills do they require?
+Based on the job market data, roles were filtered to data engineering in Canada and ordered by average salary, resulting in the identifcation of the top 10 highest paying jobs in data engineering in Canada. I then compiled the skills required for each of the roles listed to identify some skills to watch for being needed in high-paying data engineering roles.
 
+### Querying the Jobs 
 ```sql
 SELECT job_title, company_dim.name as company_name, job_location, job_schedule_type, salary_year_avg
 FROM job_postings_fact
@@ -34,24 +32,86 @@ ORDER BY salary_year_avg DESC
 LIMIT 10;
 ```
 ### Result
-![Visualization of Top Skills Trends for Data Analysts](Final_Project/Images/real_skill_trend_chart.png)
-*Line graph demonstrating the 2023 monthly trend of popular data job skills.*
+![Top 10 Paying Jobs for Data Engineers in Canada](assets\1_top_paying_jobs_chart.png)
+
+*Table displaying salaries of the top 10 job postings for data engineers in Canada.*
+
+### Querying the Skills 
+```sql
+WITH engineers_canada_jobs AS (
+    SELECT job_id, job_title, company_dim.name as company_name, job_location, job_schedule_type, salary_year_avg
+    FROM job_postings_fact
+    LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+    WHERE job_title_short = 'Data Engineer'
+    AND salary_year_avg IS NOT NULL
+    AND job_location LIKE '%Canada%'
+    ORDER BY salary_year_avg DESC
+    LIMIT 10
+)
+
+SELECT job_title, company_name, job_location, job_schedule_type, salary_year_avg, skills_dim.skills AS skill_name
+FROM engineers_canada_jobs
+INNER JOIN skills_job_dim ON engineers_canada_jobs.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+ORDER BY salary_year_avg DESC
+```
+### Result
+![Top 10 Paying Skills for Data Engineers in Canada](assets\2_top_paying_jobs_skills_chart.png)
+
+*Table displaying the 10 most popular skills listed in the top 10 job postings for data engineers in Canada.*
 
 ### Insights
-- Salaries range from $175K–$375K CAD, showing the vast possibilities of pay at the top of the data engineering spectrum.
+- Salaries range from **$175K–$375K** CAD, showing the vast possibilities of pay at the top of the data engineering spectrum.
 - Nearly all the roles are **financial-related** or **software-related**, showing an overwhelming need for data engineers in these industries.
-- Half the roles are from Toronto, highlighting Ontario's role as a hub for large-scale businesses.
+- **SQL** and **Python** are the most popular skills, both appearing in 7/10 roles. They're the baseline for any high-paying data engineering position.
+- **Cloud platforms** are also essential, with AWS leading (6 roles) and Azure in 4 roles.
+- **Data processing** tools are also helpful: Spark, Kafka, Scala, and Hadoop all appear in 3–5 roles.
 
- # Lessons
-Several general insights can be made as a result of this analysis:
-- **Skill Demand and Salary Correlation**: Skills that are more specialized or require more training usually lead to higher salaries. Advanced skills such as Python not only pay more but also are widely demanded in the job market.
-- **Constant Market Change**: The dynamic nature of the data job market was revealed as skill demand and job postings shifted over 2023. Analyzing which skills are on the rise may give a candidate the upper hand when applying for roles.
-- **Optimization of Skills for Data Roles**: Knowing which skills are the most demanded as well as the highest paying is key for data analysts to learn the right tools and maximize their returns. 
+## What are the most optimal (in demand and high-paying) skills in data engineering jobs?
+Next, the most demanded and highest-paying skills in data engineering overall were examined. By querying the skills and ordering by total number of postings containing them OR the average salary for each of the skills, a list of the top 10 skills in each category was obtained. For the purpose of this query, no location filter was applied. Skills were also filtered so that they were required to have at least 10 total postings to avoid salary outliers.
+
+Note: this query is from the 5th query of this project, which combines the 3rd and 4th queries into one succinct file.
+
+### Query 
+```sql
+SELECT skills_dim.skills, AVG(salary_year_avg)::INT AS avg_salary, COUNT(*) AS skill_count, skills_dim.type
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE 
+    job_title_short LIKE '%Data Engineer%' AND 
+    salary_year_avg IS NOT NULL
+GROUP BY skills_dim.skill_id, skills_dim.type
+HAVING COUNT(*) > 10
+ORDER BY COUNT(*) DESC, avg_salary DESC -- for most demanded
+LIMIT 10
+```
+### Result
+### Most Demanded Skills
+![Top 10 Demanded Skills for Data Engineers](assets\3_top_demanded_skills_chart.png)
+
+*Table displaying total job postings of the top 10 most demanded skills for data engineers.*
+
+### Highest Paid Skills (w/ 10+ postings)
+![Top 10 Highest Paid Skills for Data Engineers](assets\4_top_paying_skills_chart.png)
+
+*Table displaying total job postings of the top 10 highest paying skills for data engineers.*
+
+### Insights
+- **SQL** and **Python** are by far the most demanded skills in data engineering, both having almost 4x the amount of job postings as the 10th most popular skill (**Scala**).
+- A wide variety of skill types are in high demand, including **programming**, **cloud**, and **libraries** based skills.
+- More niche tools like **Mongo**, **Node**, and **Cassandra** take the top spots for highest-paid skills, and skill types expand further to include **database** and **web framework** tools.
+- **Kafka** and **Scala** are the only tools to appear on both lists, showing their strength not only as very demanded skills but also higher-paying on average.
+
+# Main Takeaways
+- Data engineers work within nearly every industry but are especially found within **financial** or **software** related roles.
+- These positions often require a diverse mix of **programming**, **cloud platform**, and **data processing** related skills in order to complete the various tasks of a data engineer.
+- While **SQL** and **Python** are the most common skills needed for any data engineer, other more specialized skills like **Kafka** and **Scala** are often higher-paying within more senior roles.
 
 # Sources of Error
-While this project was a good introduction to data analysis and provided a broad overview of the job market, it should not be considered an full comprehensive summary. Several factors contributed to inconsistencies in the project:
-- **Inconsistent and Incorrect Data**: All the job postings analyzed were public data. A good deal of information provided was incorrect or missing altogether.
-**Balancing Analysis Depth**: This project focused mainly on Canada, often examining only data engineering roles. For a more broad analysis, more roles or countries should be examined, and for a more specific analysis, a data engineer should consider narrowing down this analysis to a smaller geographical area.
+While this project was a good introduction to data analysis and provided a broad overview of the job market, it is not a comprehensive summary. Several factors contributed to inconsistencies in the project:
+- **Inconsistent and Incorrect Data**: All the job postings analyzed were public data. A good deal of information provided was incorrect or missing altogether, including salaries or job locations.
+- **Balancing Analysis Depth**: This project focused mainly on global postings, often examining only data engineering roles. For a more broad analysis, more roles or countries should be examined, and for a more specific analysis, a data engineer should consider narrowing down this analysis to a smaller geographical area.
 
  # Conclusion
-This dive into the data job market was an informative exploration into the nuances and trends of modern roles in data science. Based on the insights drawn, those applying to data jobs should always be aware of the skills needed to succeed in certain roles and keep aware of the changing market to stay ahead in data engineering. This project serves as a basic foundation for data engineering and will prove useful in future projects and learning in the field of data.
+This basic look at the data engineering job market was a good first step into analyzing what skills are necessary to be a data engineer. Based on the insights drawn, there is a multitude of skills that aspiring data engineers should target in order to become more technically sound in their field. This project serves as a basic foundation for data engineering and will prove useful in future projects and learning in the field of data.
